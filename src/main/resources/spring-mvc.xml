@@ -18,7 +18,7 @@
 
 
 	<!-- 自动扫描(自动注入) -->
-	<context:component-scan base-package="com.ssrs.controller;com.ssrs.permission.controller"/>
+	<context:component-scan base-package="com.ssrs.controller;com.ssrs.permission.controller;com.ssrs.core.timer"/>
 
  	<mvc:annotation-driven  /><!-- cache-period="315360000" -->
 	<mvc:resources mapping="/favicon.ico" location="/favicon.ico" />
@@ -56,7 +56,6 @@
 	<context:component-scan base-package="com.ssrs.core.freemarker.tags" />
 	<bean name="api" class="com.ssrs.core.freemarker.tags.APITemplateModel"></bean>
 	<bean name="springContextUtil" class="com.ssrs.util.commom.SpringContextUtil" scope="singleton"></bean>
-	
 
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">  
 		<property name="messageConverters">  
@@ -197,4 +196,10 @@
 	<!--spring aop 注解配置开启-->
 	<aop:aspectj-autoproxy/>
 	<bean id="cacheAspect" class="com.ssrs.core.cache.CacheAspect"></bean>
+
+
+	<!--====================================定时任务配置=================================-->
+	<!-- 初始化job -->
+	<bean id="MySchedulerFactoryBean"  class="org.springframework.scheduling.quartz.SchedulerFactoryBean" />
+	<bean id="initQuartzJob" class="com.ssrs.core.timer.InitQuartzJob"/>
 </beans>

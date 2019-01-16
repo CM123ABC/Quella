@@ -386,6 +386,8 @@
 
           // 保存按钮
           $(".entity-save").on("click", function () {
+              layer.msg("演示站点，不予许操作！", {offset: '15px', time: 3000, icon: 2});
+              return false;
               // 检验处理基本数据
               if(!verifyBasic()){
                   return false;

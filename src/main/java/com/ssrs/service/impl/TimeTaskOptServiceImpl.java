@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
@@ -30,7 +31,6 @@ public class TimeTaskOptServiceImpl implements ITimeTaskOptService {
 
     @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
-
 
     @Override
     public Map<String, Object> getAllJob(HttpServletRequest request) throws SchedulerException {

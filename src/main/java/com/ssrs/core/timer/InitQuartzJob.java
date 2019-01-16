@@ -4,13 +4,17 @@ package com.ssrs.core.timer;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.ssrs.model.Timetask;
 import com.ssrs.service.ITimetaskService;
+import com.ssrs.util.commom.SpringContextUtil;
 import org.quartz.*;
+import org.quartz.impl.StdScheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import java.util.ArrayList;
@@ -21,11 +25,8 @@ import java.util.List;
  *
  * @author
  */
-public class InitQuartzJob implements ApplicationContextAware {
+public class InitQuartzJob implements InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(InitQuartzJob.class);
-
-
-    private static ApplicationContext appCtx;
 
 
     public static SchedulerFactoryBean schedulerFactoryBean = null;
@@ -34,16 +35,9 @@ public class InitQuartzJob implements ApplicationContextAware {
     private ITimetaskService timetaskService;
 
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        if (this.appCtx == null) {
-            this.appCtx = applicationContext;
-        }
-    }
-
     public  void init() {
-        schedulerFactoryBean = (SchedulerFactoryBean) appCtx.getBean(SchedulerFactoryBean.class);
-        Scheduler scheduler = schedulerFactoryBean.getScheduler();
+        InitQuartzJob.schedulerFactoryBean =  SpringContextUtil.getBean(SchedulerFactoryBean.class);
+        Scheduler scheduler = InitQuartzJob.schedulerFactoryBean.getScheduler();
         try {
             logger.info(scheduler.getSchedulerName());
         } catch (SchedulerException e1) {
@@ -135,6 +129,11 @@ public class InitQuartzJob implements ApplicationContextAware {
             // 按新的trigger重新设置job执行
             scheduler.rescheduleJob(triggerKey, trigger);
         }
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        this.init();
     }
 }
 

@@ -35,7 +35,7 @@
             <div class="kit-login-col">
               <i class="layui-icon">&#xe64c;</i>
               <span class="kit-login-input">
-                            <input type="password" id="password" name="pswd" lay-verify="required" placeholder="密码" />
+                            <input type="password" id="password" name="pswd" value="admin" lay-verify="required" placeholder="密码" />
                         </span>
             </div>
             <div class="kit-login-col"></div>

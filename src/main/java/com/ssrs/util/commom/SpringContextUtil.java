@@ -35,9 +35,20 @@ public class SpringContextUtil implements ApplicationContextAware {
 		}
 	}
 
-	public static <T> T getBean(String name, Class<T> requiredType)
-			throws BeansException {
-		return applicationContext.getBean(name, requiredType);
+	public static <T> T getBean(String name, Class<T> requiredType){
+		try {
+			return applicationContext.getBean(name, requiredType);
+		} catch (Exception e) {
+			throw new RuntimeException("获取的Bean不存在！");
+		}
+	}
+
+	public static <T> T getBean(Class<T> requiredType){
+		try {
+			return applicationContext.getBean(requiredType);
+		} catch (Exception e) {
+			throw new RuntimeException("获取的Bean不存在！");
+		}
 	}
 
 	public static boolean containsBean(String name) {
